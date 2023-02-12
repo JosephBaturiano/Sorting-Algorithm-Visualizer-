@@ -139,3 +139,31 @@ class Visualizer:
                 (x, y, self.bar_width, self.height),
             )
         pygame.display.update()
+
+    # Algorithms
+    def bubbleSort(self):
+        for i in range(self.bars - 1):
+            for j in range(self.bars - 1 - i):
+                num1 = self.list[j]
+                num2 = self.list[j + 1]
+                if (num1 > num2 and self.ascending) or (
+                    num1 < num2 and not self.ascending
+                ):
+                    self.list[j], self.list[j +
+                                            1] = self.list[j + 1], self.list[j]
+                    yield True
+
+    def insertionSort(self):
+        for i in range(1, self.bars):
+            current = self.list[i]
+            while True:
+                ascending_sort = i > 0 and self.list[i -
+                                                     1] > current and self.ascending
+                descending_sort = (
+                    i > 0 and self.list[i - 1] < current and not self.ascending
+                )
+                if not (ascending_sort or descending_sort):
+                    break
+                self.list[i], self.list[i - 1] = self.list[i - 1], current
+                i -= 1
+                yield True
