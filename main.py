@@ -54,3 +54,61 @@ class Visualizer:
             key = list(self.algorithms.keys())[0]
         self.algo_name = self.algorithms[key][0]
         self.algo = self.algorithms[key][1]
+
+    # Visualization
+    def update(self):
+        self.window.fill((0, 0, 0))
+        play_pause = "Pause" if self.sorting else "Play"
+        titles1 = [
+            f"ARROWS - {self.bars} Bars  {self.tick} Tick",
+            f"SPACE - {play_pause}",
+            "R - Reset",
+        ]
+        for i, title in enumerate(titles1):
+            self.window.blit(
+                pygame.font.Font(None, self.font_size).render(
+                    title,
+                    1,
+                    (255, 255, 255),
+                ),
+                (self.width // 3, 10 + self.font_size * i),
+            )
+
+        titles2 = [
+            "A - Ascending",
+            "D - Descending",
+        ]
+        for i, title in enumerate(titles2):
+            color = 255, 255, 255
+            if title[0] == "A" and self.ascending:
+                color = 0, 255, 255
+            if title[0] == "D" and not self.ascending:
+                color = 0, 255, 255
+
+            self.window.blit(
+                pygame.font.Font(None, self.font_size).render(
+                    title,
+                    1,
+                    color,
+                ),
+                (self.width // 3 * 2, 10 + self.font_size * i),
+            )
+
+        algorithms = [
+            f"{name[0]} - {name}" for name in (x for x, _ in self.algorithms.values())
+        ]
+        for i, algo in enumerate(algorithms):
+            color = 255, 255, 255
+            if algo[0] == self.algo_name[0]:
+                color = 255, 0, 255
+
+            self.window.blit(
+                pygame.font.Font(None, self.font_size).render(
+                    algo,
+                    1,
+                    color,
+                ),
+                (10, 10 + self.font_size * i),
+            )
+
+        self.drawList()
