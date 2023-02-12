@@ -41,3 +41,16 @@ class Visualizer:
         elif not up and self.bars > 4:
             self.bars //= 2
         self.genList()
+
+    def setAlgo(self, key=False):
+        self.algorithms = {
+            pygame.K_b: ("Bubble Sort", self.bubbleSort),
+            pygame.K_i: ("Insertion Sort", self.insertionSort),
+            pygame.K_m: ("Merge Sort", self.mergeSort),
+            pygame.K_q: ("Quick Sort", self.quickSort),
+            pygame.K_s: ("Selection Sort", self.selectionSort),
+        }
+        if not key:
+            key = list(self.algorithms.keys())[0]
+        self.algo_name = self.algorithms[key][0]
+        self.algo = self.algorithms[key][1]
