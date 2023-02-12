@@ -256,3 +256,53 @@ class Visualizer:
 
         (self.list[i + 1], self.list[h]) = (self.list[h], self.list[i + 1])
         yield i + 1
+
+    # Main function
+    def run(self):
+        clock = pygame.time.Clock()
+        while True:
+            clock.tick(self.tick)
+            if self.sorting:
+                try:
+                    next(self.gen)
+                    self.drawList(clear_bg=True)
+                except StopIteration:
+                    self.sorting = False
+                    self.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+                if event.type == pygame.KEYDOWN:
+                    key = event.key
+                    if key == pygame.K_SPACE:
+                        self.sorting = False if self.sorting else True
+                    elif key == pygame.K_DOWN:
+                        self.changeTick(False)
+                    elif key == pygame.K_UP:
+                        self.changeTick(True)
+                    else:
+                        if key == pygame.K_r:
+                            self.genList()
+                            self.sorting = False
+                        elif key == pygame.K_a:
+                            self.ascending = True
+                        elif key == pygame.K_d:
+                            self.ascending = False
+                        elif key == pygame.K_LEFT:
+                            self.changeBars(False)
+                            self.sorting = False
+                        elif key == pygame.K_RIGHT:
+                            self.changeBars(True)
+                            self.sorting = False
+                        elif key in self.algorithms.keys():
+                            self.setAlgo(key)
+                        else:
+                            continue
+                        self.gen = self.algo()
+                    self.update()
+
+
+if __name__ == "__main__":
+    Visualizer().run()
