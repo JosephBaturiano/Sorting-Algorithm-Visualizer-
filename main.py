@@ -28,3 +28,16 @@ class Visualizer:
         self.bar_spacing = self.width / self.bars
         self.bar_width = ceil(self.bar_spacing)
         self.bar_height = (self.height - self.top_pad) // 100
+
+    def changeTick(self, up):
+        if up and self.tick < 256:
+            self.tick *= 2
+        elif not up and self.tick > 4:
+            self.tick //= 2
+
+    def changeBars(self, up):
+        if up and self.bars < 256:
+            self.bars *= 2
+        elif not up and self.bars > 4:
+            self.bars //= 2
+        self.genList()
