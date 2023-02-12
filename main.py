@@ -21,3 +21,10 @@ class Visualizer:
         self.genList()
         self.update()
         self.gen = self.algo()
+
+    def genList(self):
+        self.list = [100 / self.bars * (i + 1) for i in range(self.bars)]
+        random.shuffle(self.list)
+        self.bar_spacing = self.width / self.bars
+        self.bar_width = ceil(self.bar_spacing)
+        self.bar_height = (self.height - self.top_pad) // 100
