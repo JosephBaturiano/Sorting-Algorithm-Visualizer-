@@ -112,3 +112,30 @@ class Visualizer:
             )
 
         self.drawList()
+
+    def drawList(self, clear_bg=False):
+        if clear_bg:
+            pygame.draw.rect(
+                self.window,
+                (0, 0, 0),
+                (
+                    0,
+                    self.top_pad,
+                    self.width,
+                    self.height,
+                ),
+            )
+        for i, val in enumerate(self.list):
+            x = i * self.bar_spacing
+            y = self.height - val * self.bar_height
+            color = (
+                val * 2.55,
+                (100 - val) * 2.55,
+                255,
+            )
+            pygame.draw.rect(
+                self.window,
+                color,
+                (x, y, self.bar_width, self.height),
+            )
+        pygame.display.update()
