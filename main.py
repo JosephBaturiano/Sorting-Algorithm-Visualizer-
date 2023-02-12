@@ -167,3 +167,56 @@ class Visualizer:
                 self.list[i], self.list[i - 1] = self.list[i - 1], current
                 i -= 1
                 yield True
+
+    def selectionSort(self):
+        for i in range(self.bars - 1):
+            k = i
+            for j in range(i + 1, self.bars):
+                if (
+                    self.list[j] < self.list[k]
+                    and self.ascending
+                    or self.list[j] > self.list[k]
+                    and not self.ascending
+                ):
+                    k = j
+            self.list[i], self.list[k] = self.list[k], self.list[i]
+            yield True
+
+    def mergeSort(self, start=0, end=False):
+        if not end:
+            end = self.bars
+        if end - start > 1:
+            mid = (start + end) // 2
+
+            yield from self.mergeSort(start, mid)
+            yield from self.mergeSort(mid, end)
+            left = self.list[start:mid]
+            right = self.list[mid:end]
+
+            a = 0
+            b = 0
+            c = start
+
+            while a < len(left) and b < len(right):
+                if (left[a] < right[b] and self.ascending) or (
+                    left[a] > right[b] and not self.ascending
+                ):
+                    self.list[c] = left[a]
+                    a += 1
+                else:
+                    self.list[c] = right[b]
+                    b += 1
+                c += 1
+                yield True
+
+            while a < len(left):
+                self.list[c] = left[a]
+                a += 1
+                c += 1
+                yield True
+
+            while b < len(right):
+                self.list[c] = right[b]
+                b += 1
+                c += 1
+                yield True
